@@ -26,7 +26,8 @@ export class RequestFriendsComponent implements OnInit {
   public follows;
   public stats;
   public friends;
-  public requests;
+  public requested;
+  public request;
 
   constructor(
                 private _us:UserService,
@@ -73,8 +74,9 @@ export class RequestFriendsComponent implements OnInit {
                 this.pages = res['pages'];
                 this.friends = res['friends'];
                 this.RequestFriends = res['requests'];
-                this.requests = res['friends_solicited'];
+                this.requested = res['user_requested'];
                 this.follows = res['users_following'];
+                this.request = res['friends_request'];
 
                 if ( this.total!= 0 && this.page > this.pages) {
                   this._router.navigateByUrl(`/home`);

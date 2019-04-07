@@ -21,7 +21,8 @@ export class FollowedComponent implements OnInit {
   public pages:number = 0;
   public UsersFollowed:Follow[];
   public follows;
-  public requests;
+  public requested;
+  public request;
   public friends;
   public user:number;
   public stats;
@@ -68,8 +69,9 @@ export class FollowedComponent implements OnInit {
                 this.pages = res.pages;
                 this.UsersFollowed = res.follows;
                 this.follows = res.users_following;
-                this.requests = res.user_solicited;
+                this.requested = res.user_requested;
                 this.friends = res.friends;
+                this.request = res.friends_request;
 
                 if (this.total!= 0 &&  this.page > this.pages) {
                   this._router.navigateByUrl(`/followed/${userId}/1`);

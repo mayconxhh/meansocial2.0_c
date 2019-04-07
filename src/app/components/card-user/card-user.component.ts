@@ -26,9 +26,8 @@ export class CardUserComponent implements OnInit {
   public faMinusCircle = faMinusCircle;
   public faCheckCircle = faCheckCircle;
   public identity:Object;
-  public UsersFollowed:Follow[];
   @Input() follows;
-  @Input() requests;
+  @Input() request;
   @Input() friends;
   public followUserOver;
   public followUserOverBF
@@ -37,7 +36,7 @@ export class CardUserComponent implements OnInit {
   public followUserOverCardF;
   @Input() user:number;
   @Input() stats;
-  @Input() Request;
+  @Input() requested;
 
 
   constructor(
@@ -52,9 +51,15 @@ export class CardUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     for (let user of this.users) {
-      this.usersClean.push(user.user);
+      if (typeof user.user != 'string') {
+        this.usersClean.push(user.user);
+      } else if(typeof user.followed != 'string') {
+        this.usersClean.push(user.followed);
+      }
     }
+
     console.log(this.usersClean)
   }
 
@@ -104,7 +109,7 @@ export class CardUserComponent implements OnInit {
                 .subscribe(res=>{
                   console.log(res)
                   if (res['success']) {
-                    this.requests.push(res['fRequest'].requested)
+                    this.requested.push(res['fRequest'].requested)
                     // this.stats.following +=1;
                     // this._us.setStats(this.stats);
                   }
@@ -118,12 +123,12 @@ export class CardUserComponent implements OnInit {
                 .subscribe(res=>{
                   console.log(res);
                   if (res.success) {
-                    let i = this.requests.indexOf(requested);
+                    let i = this.requested.indexOf(requested);
 
                     if (i != -1) {
                       // this.stats.following -=1;
                       // this._us.setStats(this.stats);
-                      this.requests.splice(i, 1);
+                      this.requested.splice(i, 1);
                     }
                   }
                 }, err=>{
@@ -137,8 +142,14 @@ export class CardUserComponent implements OnInit {
                   console.log(res)
                   if (res['success']) {
                     this.friends.push(res['friend'].friend)
+                    let i = this.request.indexOf(userId)
                     // this.stats.following +=1;
                     // this._us.setStats(this.stats);
+                    if (i != -1) {
+                      // this.stats.following -=1;
+                      // this._us.setStats(this.stats);
+                      this.request.splice(i, 1);
+                    }
                   }
                 }, err=>{
                   console.log(err)

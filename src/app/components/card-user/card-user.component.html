@@ -23,7 +23,7 @@
       	<button
           class="btn btn-sm mr-1"
           (click)="addFriend(user._id)"
-          *ngIf="friends.indexOf(user._id) < 0 && requests.indexOf(user._id) >= 0"
+          *ngIf="friends.indexOf(user._id) < 0 && requested.indexOf(user._id) < 0 && request.indexOf(user._id) >= 0"
           [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
         >
           <fa-icon [icon]="faPlusCircle"></fa-icon>
@@ -32,7 +32,7 @@
         <button 
           class="btn btn-sm mr-1"
           [ngClass]="{ 'btn-outline-danger': user._id == followUserOverCardF, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followUserOverCardF || user._id == followUserOverCard}"
-          *ngIf="friends.indexOf(user._id) >= 0"
+          *ngIf="friends.indexOf(user._id) >= 0 && requested.indexOf(user._id) < 0 && request.indexOf(user._id) < 0"
           (mouseenter)="mouseEnterF(user._id)"
           (mouseleave)="mouseLeaveF(user._id)"
           (click)="deleteFriend(user._id)"
@@ -49,7 +49,7 @@
       	<button
           class="btn btn-sm mr-1"
           (click)="sendRequest(user._id)"
-          *ngIf="requests.indexOf(user._id) < 0 && friends.indexOf(user._id) < 0 && !Request"
+          *ngIf="requested.indexOf(user._id) < 0 && request.indexOf(user._id) < 0 && friends.indexOf(user._id) < 0 "
           [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
         >
           <fa-icon [icon]="faPlusCircle"></fa-icon>
@@ -58,7 +58,7 @@
         <button 
           class="btn btn-sm mr-1"
           [ngClass]="{ 'btn-outline-danger': user._id == followUserOverBF, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followUserOverBF || user._id == followUserOverCard}"
-          *ngIf="requests.indexOf(user._id) >= 0 && friends.indexOf(user._id) < 0 && !Request"
+          *ngIf="requested.indexOf(user._id) >= 0 && request.indexOf(user._id) < 0 && friends.indexOf(user._id) < 0 "
           (mouseenter)="mouseEnterBF(user._id)"
           (mouseleave)="mouseLeaveBF(user._id)"
           (click)="cancelRequest(user._id)"
