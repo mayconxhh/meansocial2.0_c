@@ -3,67 +3,18 @@
 
 <div class="row">
   <div class="col-md-8">
-    <div class="row">
-      <div
-        *ngFor="let user of users"
-        class="col-sm-6 user-content-all"
+    <app-card-user
+      *ngIf="users"
+      class="row"
+      [users]="users"
+      [follows]="follows"
+      [user]="user"
+      [stats]="stats"
+      [requested]="requested"
+      [request]="request"
+      [friends]="friends"
       >
-        <div
-          class="user-card mb-4"
-          (mouseenter)="mouseEnterCard(user._id)"
-          (mouseleave)="mouseLeaveCard(user._id)"
-          [ngClass]="{ 'border-primary': user._id == followUserOverCard }"
-        >
-          <!-- <img [src]="user.followed | secureImage:'avatar'" class="" [alt]="user.nick"> -->
-          <div class="user-card-avatar card-img-top" [ngStyle]="{ 'background-image': 'url('+ (user | secureImage:'avatar') +')' }"></div>
-          <div class="user-card-content">
-            <div class="user-card-text">
-              <a [routerLink]="['/profile', user._id]" class="card-link user-card-name">{{ user.name + ' ' + user.lastname }}</a>
-              <br>
-              <span class="user-card-nick">{{ user.nick }}</span>
-            </div>
-            <div
-              class="user-card-buttons"
-              [ngClass]="{ 'border-primary': user._id == followUserOverCard }"
-              *ngIf="user._id != identity._id"
-            >
-              <button
-                class="btn btn-sm btn-primary mr-1"
-                (click)="sendRequestF(user._id)"
-              >
-                Agregar
-              </button>
-              <button
-                class="btn btn-sm"
-                (click)="followUser(user._id)"
-                *ngIf="follows.indexOf(user._id) < 0"
-                [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
-              >
-                <fa-icon [icon]="faPlusCircle"></fa-icon>
-                Seguir
-              </button>
-              <button 
-                class="btn btn-sm"
-                [ngClass]="{ 'btn-outline-danger': user._id == followingUserOver, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followingUserOver || user._id == followUserOverCard}"
-                *ngIf="follows.indexOf(user._id) >= 0"
-                (mouseenter)="mouseEnter(user._id)"
-                (mouseleave)="mouseLeave(user._id)"
-                (click)="unfollowUser(user._id)"
-              >
-                <span *ngIf="user._id == followingUserOver; else following">
-                  <fa-icon [icon]="faMinusCircle"></fa-icon>
-                  Dejar de seguir
-                </span>
-                <ng-template #following>
-                  <fa-icon [icon]="faCheckCircle"></fa-icon>
-                  Siguiendo
-                </ng-template>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </app-card-user>
     <nav class="text-right">
       <hr>
       <ul class="pagination justify-content-end">

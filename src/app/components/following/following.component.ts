@@ -5,12 +5,6 @@ import { Follow } from '../../models/follow.models';
 import { UserService } from '../../providers/user.service';
 import { FollowService } from '../../providers/follow.service';
 
-import {
-          faPlusCircle,
-          faMinusCircle,
-          faCheckCircle
-        } from '@fortawesome/free-solid-svg-icons';
-
 @Component({
   selector: 'app-following',
   templateUrl: './following.component.html',
@@ -18,9 +12,6 @@ import {
 })
 export class FollowingComponent implements OnInit, OnChanges {
 
-  public faPlusCircle = faPlusCircle;
-  public faMinusCircle = faMinusCircle;
-  public faCheckCircle = faCheckCircle;
   public title:string;
   public identity:Object;
   public page:number;

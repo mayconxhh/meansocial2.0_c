@@ -7,21 +7,13 @@ import { UserService } from '../../providers/user.service';
 import { FollowService } from '../../providers/follow.service';
 import { FriendService } from '../../providers/friend.service';
 
-import {
-          faPlusCircle,
-          faMinusCircle,
-          faCheckCircle
-        } from '@fortawesome/free-solid-svg-icons';
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styles: []
 })
 export class UsersComponent implements OnInit {
-  public faPlusCircle = faPlusCircle;
-  public faMinusCircle = faMinusCircle;
-  public faCheckCircle = faCheckCircle;
+
   public title:string;
   public identity:Object;
   public page:number;
@@ -31,8 +23,9 @@ export class UsersComponent implements OnInit {
   public pages:number;
   public users:User[];
   public follows;
-  public followUserOver;
-  public followUserOverCard;
+  public requested;
+  public request;
+  public friends;
   public stats;
 
   constructor(
@@ -76,6 +69,9 @@ export class UsersComponent implements OnInit {
                 this.pages = res.pages;
                 this.users = res.users;
                 this.follows = res.users_following;
+                this.requested = res.user_requested;
+                this.friends = res.friends;
+                this.request = res.friends_request;
 
                 if (this.page > this.pages) {
                   this._router.navigateByUrl('users/1');
@@ -84,72 +80,6 @@ export class UsersComponent implements OnInit {
             }, err=>{
               console.log(err);
             })
-  }
-
-  mouseEnterCard(userId){
-    this.followUserOverCard = userId;
-  }
-
-  mouseLeaveCard(userId){
-    this.followUserOverCard = 0;
-  }
-
-  mouseEnter(userId){
-    this.followUserOver = userId;
-  }
-
-  mouseLeave(userId){
-    this.followUserOver = 0;
-  }
-
-  followUser(followed){
-    let follow = new Follow('', this.identity['_id'], followed);
-
-    this._fs.addFollow(follow)
-                .subscribe(res=>{
-                  console.log(res)
-                  if (res.success) {
-                    this.follows.push(res.follow.followed)
-                    this.stats.following +=1;
-                    this._us.setStats(this.stats);
-                  }
-                }, err=>{
-                  console.log(err)
-                })
-  }
-
-  unfollowUser(followed){
-    this._fs.deleteFollow(followed)
-                .subscribe(res=>{
-                  console.log(res);
-                  if (res.success) {
-                    let i = this.follows.indexOf(followed);
-
-                    if (i != -1) {
-                      this.stats.following -=1;
-                      this._us.setStats(this.stats);
-                      this.follows.splice(i, 1);
-                    }
-                  }
-                }, err=>{
-                  console.log(err)
-                })
-  }
-
-  sendRequestF(friend){
-    let request = new FriendRequest('', this.identity['_id'], friend);
-
-    this._frs.sendRequestF(request)
-                .subscribe(res=>{
-                  console.log(res)
-                  // if (res.success) {
-                    // this.follows.push(res.follow.followed)
-                    // this.stats.following +=1;
-                    // this._us.setStats(this.stats);
-                  // }
-                }, err=>{
-                  console.log(err)
-                })
   }
 
 }

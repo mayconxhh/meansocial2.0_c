@@ -51,12 +51,14 @@ export class CardUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     for (let user of this.users) {
-      if (typeof user.user != 'string') {
+      if ( user.user && typeof user.user != 'string') {
         this.usersClean.push(user.user);
-      } else if(typeof user.followed != 'string') {
+      } else if( user.followed && typeof user.followed != 'string') {
         this.usersClean.push(user.followed);
+      } else {
+        this.usersClean.push(user);
       }
     }
 
