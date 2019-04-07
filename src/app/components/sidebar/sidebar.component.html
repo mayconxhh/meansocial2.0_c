@@ -1,0 +1,60 @@
+<div class="card border-primary">
+  <img [src]="identity | secureImage:'avatar'" class="card-img-top" [alt]="identity.nick">
+  <div class="card-body">
+    <a [routerLink]="['/profile', identity._id]" class="card-link"><h3>{{ identity.name + ' '+ identity.lastname }}</h3></a>
+    <br>
+    <span>{{ identity.nick }}</span>
+  </div>
+  <ul class="list-group list-group-flush" *ngIf="stats">
+    <li class="list-group-item"><a class="card-link text-dark" [routerLink]="['/following', identity._id]">Siguiendo: <span>{{ stats.following }}</span></a></li>
+    <li class="list-group-item"><a class="card-link text-dark" [routerLink]="['/followed', identity._id]">Seguidores: <span>{{ stats.followed }}</span></a></li>
+    <li class="list-group-item">Publicaciones: <span>{{ stats.publications }}</span></li>
+  </ul>
+</div>
+<br>
+<div class="card border-primary">
+	<div class="card-body">
+		<form
+			[formGroup]="form"
+			(ngSubmit)="newPublication()"
+		>
+			<div class="form group">
+				<label for="exampleFormControlTextarea1">¿Que estas pensando?</label>
+		    <textarea
+		    	formControlName="text"
+		    	[ngClass]="{  'is-invalid': !form.get('text').valid && form.get('text').touched  }"
+		    	class="form-control"
+		    	id="exampleFormControlTextarea1"
+	    	></textarea>
+		    <div
+			    *ngIf="form.get('text').errors?.required && form.get('text').touched"
+		    	class="invalid-feedback"
+		    >
+		    	Este campo es requerido.
+		    </div>
+	        <div
+	    	    *ngIf="form.get('text').errors?.minlength && form.get('text').touched"
+	        	class="invalid-feedback"
+	        >
+	        	Necesita por lo menos {{ form.get('text').errors?.minlength.requiredLength }} carácteres.
+	        </div>
+			</div>
+			<br>
+			<div class="form-group">
+				<div class="input-group mb-3">
+				  <div class="custom-file pointer">
+				    <input type="file" class="custom-file-input pointer" id="inputGroupFile02" (change)="fileChange($event)">
+				    <label class="custom-file-label labelInput">{{ textInputFile }}</label>
+				  </div>
+				</div>
+			</div>
+			<button
+			  [disabled]="!form.valid"
+		  	type="submit"
+		  	class="btn btn-outline-primary btn-block"
+		  >
+				Publicar
+			</button>
+		</form>
+	</div>
+</div>

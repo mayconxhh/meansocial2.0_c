@@ -1,0 +1,45 @@
+<h1>{{ title }}</h1>
+<hr>
+
+<div class="row">
+  <div class="col-md-8">
+    <app-card-user
+      *ngIf="RequestFriends"
+      class="row"
+      [users]="RequestFriends"
+      [follows]="follows"
+      [user]="user"
+      [stats]="stats"
+      [requests]="requests"
+      [friends]="friends"
+      [Request]="true"
+
+      >
+    </app-card-user>
+    <nav class="text-right" *ngIf="pages != 0">
+      <hr>
+      <ul class="pagination justify-content-end">
+        <li class="page-item"
+          *ngIf="page > 1"
+        >
+          <a
+            class="page-link"
+            [routerLink]="['/users', prevPage]"
+          >Anterior</a>
+        </li>
+        <li class="page-item"
+          *ngIf="page != pages"
+        >
+          <a
+            class="page-link"
+            [routerLink]="['/users', nextPage]"
+          >Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <app-sidebar
+    class="col-md-4"
+  ></app-sidebar>
+</div>
+    <!-- [stats]="stats" -->

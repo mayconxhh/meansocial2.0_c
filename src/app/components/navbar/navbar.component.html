@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" [routerLink]="['home']">{{ title }}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        *ngIf="!_as.isLogIn()"
+        >
+        <a class="nav-link" [routerLink]="['login']">
+          <fa-icon [icon]="faSignInAlt"></fa-icon>
+          Iniciar Sesion
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        *ngIf="!_as.isLogIn()"
+        >
+        <a class="nav-link" [routerLink]="['register']">
+          <fa-icon [icon]="faUserPlus"></fa-icon>
+          Registrate
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        *ngIf="_as.isLogIn()"
+        >
+        <a class="nav-link" [routerLink]="['home']">
+          <fa-icon [icon]="faHome"></fa-icon>
+          Inicio
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        *ngIf="_as.isLogIn()"
+        >
+        <a class="nav-link" [routerLink]="['users']">
+          <fa-icon [icon]="faUsers"></fa-icon>
+          Comunidad
+        </a>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li
+          class="nav-item pointer"
+          *ngIf="_as.isLogIn()"
+        >
+          <div class="avatar" [routerLink]="['profile', identity._id]" [ngStyle]="{ 'background-image': 'url('+(identity | secureImage:'avatar')+')' }">
+          </div>
+        </li>
+        <li
+          class="nav-item pointer"
+          *ngIf="_as.isLogIn()"
+        >
+          <a class="navbar-brand" [routerLink]="['profile', identity._id]">
+            {{ identity.name }}
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="_as.isLogIn()"
+          >
+          <a class="nav-link" [routerLink]="['profile', identity._id]">
+            <fa-icon [icon]="faUser"></fa-icon>
+            Perfil
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="_as.isLogIn()"
+          >
+          <a class="nav-link" [routerLink]="['request_friends']">
+            <fa-icon [icon]="faUser"></fa-icon>
+            Solicitudes
+          </a>
+        </li>
+        <li
+          class="nav-item pointer"
+          *ngIf="_as.isLogIn()"
+          >
+          <a class="nav-link pointer" (click)="_as.logout()">
+            <fa-icon [icon]="faSignInAlt"></fa-icon>
+            Cerrar sesión
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,104 @@
+<div
+  *ngFor="let user of usersClean"
+  class="col-sm-12 user-content-all"
+>
+  <div
+    class="user-card mb-4"
+    (mouseenter)="mouseEnterCard(user._id)"
+    (mouseleave)="mouseLeaveCard(user._id)"
+    [ngClass]="{ 'border-primary' : user._id == followUserOverCard }"
+  >
+    <div class="user-card-avatar card-img-top" [ngStyle]="{ 'background-image': 'url('+ (user | secureImage:'avatar') +')' }"></div>
+    <div class="user-card-content">
+      <div class="user-card-text">
+        <a [routerLink]="['/profile', user._id]" class="card-link user-card-name">{{ user.name + ' ' + user.lastname }}</a>
+        <br>
+        <span class="user-card-nick">{{ user.nick }}</span>
+      </div>
+      <div
+      	class="user-card-buttons"
+        *ngIf="user._id != identity._id"
+        [ngClass]="{ 'border-primary': user._id == followUserOverCard }"
+      >
+      	<button
+          class="btn btn-sm mr-1"
+          (click)="addFriend(user._id)"
+          *ngIf="friends.indexOf(user._id) < 0 && requests.indexOf(user._id) >= 0"
+          [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
+        >
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+          Aceptar solicitud
+        </button>
+        <button 
+          class="btn btn-sm mr-1"
+          [ngClass]="{ 'btn-outline-danger': user._id == followUserOverCardF, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followUserOverCardF || user._id == followUserOverCard}"
+          *ngIf="friends.indexOf(user._id) >= 0"
+          (mouseenter)="mouseEnterF(user._id)"
+          (mouseleave)="mouseLeaveF(user._id)"
+          (click)="deleteFriend(user._id)"
+        >
+          <span *ngIf="user._id == followUserOverCardF; else friend">
+            <fa-icon [icon]="faMinusCircle"></fa-icon>
+            Eliminar amigo(a)
+          </span>
+          <ng-template #friend>
+            <fa-icon [icon]="faCheckCircle"></fa-icon>
+            Amigo(a)
+          </ng-template>
+        </button>
+      	<button
+          class="btn btn-sm mr-1"
+          (click)="sendRequest(user._id)"
+          *ngIf="requests.indexOf(user._id) < 0 && friends.indexOf(user._id) < 0 && !Request"
+          [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
+        >
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+          Agregar amigo
+        </button>
+        <button 
+          class="btn btn-sm mr-1"
+          [ngClass]="{ 'btn-outline-danger': user._id == followUserOverBF, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followUserOverBF || user._id == followUserOverCard}"
+          *ngIf="requests.indexOf(user._id) >= 0 && friends.indexOf(user._id) < 0 && !Request"
+          (mouseenter)="mouseEnterBF(user._id)"
+          (mouseleave)="mouseLeaveBF(user._id)"
+          (click)="cancelRequest(user._id)"
+        >
+          <span *ngIf="user._id == followUserOverBF; else requestC">
+            <fa-icon [icon]="faMinusCircle"></fa-icon>
+            Cancelar Solicitud
+          </span>
+          <ng-template #requestC>
+            <fa-icon [icon]="faCheckCircle"></fa-icon>
+            Solicitud enviada
+          </ng-template>
+        </button>
+        <button
+          class="btn btn-sm"
+          (click)="followUser(user._id)"
+          *ngIf="follows.indexOf(user._id) < 0"
+          [ngClass]="{ 'btn-primary': user._id == followUserOverCard, 'btn-dark': user._id != followUserOverCard }"
+        >
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+          Seguir
+        </button>
+        <button 
+          class="btn btn-sm"
+          [ngClass]="{ 'btn-outline-danger': user._id == followUserOver, 'btn-outline-dark': user._id != followUserOverCard, 'btn-outline-primary': user._id != followUserOver || user._id == followUserOverCard}"
+          *ngIf="follows.indexOf(user._id) >= 0"
+          (mouseenter)="mouseEnter(user._id)"
+          (mouseleave)="mouseLeave(user._id)"
+          (click)="unfollowUser(user._id)"
+        >
+          <span *ngIf="user._id == followUserOver; else following">
+            <fa-icon [icon]="faMinusCircle"></fa-icon>
+            Dejar de seguir
+          </span>
+          <ng-template #following>
+            <fa-icon [icon]="faCheckCircle"></fa-icon>
+            Siguiendo
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

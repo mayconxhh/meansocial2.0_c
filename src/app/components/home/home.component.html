@@ -1,0 +1,58 @@
+<h1 class="d-in-bl">
+  {{ title }}
+</h1>
+<div class="float-right buttonUpdate">
+  <button
+    (click)="refresPublications($event)"
+    class="btn btn-outline-primary btn-sm"
+  >
+    <fa-icon [icon]="faSyncAlt"></fa-icon>
+    Actualizar
+  </button>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-8">
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="card mb-4" *ngFor="let publication of publications">
+          <div class="card-header card-user-header bg-transparent">
+            <div
+              class="card-avatar-user pointer"
+              [routerLink]="['/user', publication.user._id]"
+              [ngStyle]="{ 'background-image': 'url('+ (publication.user | secureImage:'avatar') +')' }"
+            ></div>
+            <div>
+              <a class="card-link" [routerLink]="['/profile', publication.user._id]">
+                <strong>
+                  {{ publication.user.name + ' ' +publication.user.lastname }}
+                </strong>
+              </a>
+            </div>
+          </div>
+          <div
+            *ngIf="publication.file"
+            class="card-img-publication"
+          >
+            <img class="card-img" [src]="publication | secureImage:'fileP'" alt="">
+          </div>
+          <div class="card-body">
+            <span class="card-text-publication">{{ publication.text }}</span>
+            <br>
+            <a class="card-date-publication" [routerLink]="['/publication', publication._id ]">{{ ( publication.createAd | amFromUnix ) | amLocale:'es' | amTimeAgo }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 text-center" *ngIf="publications && !noMore && publications.length != total">
+        <button
+          class="btn btn-outline-primary"
+          (click)="viewMore()"
+        >Ver más...</button>
+      </div>
+    </div>
+  </div>
+  <app-sidebar
+    class="col-md-4"
+    (sended)="refresPublications()"
+  ></app-sidebar>
+</div>

@@ -1,0 +1,94 @@
+<h1  class="d-in-bl">
+  {{ title }}
+</h1>
+<div class="float-right buttonUpdate" *ngIf="user && user._id === identity._id">
+  <button
+    [routerLink]="['/edit/profile']"
+    class="btn btn-outline-primary btn-sm"
+  >
+    <fa-icon [icon]="faUserEdit"></fa-icon>
+    Editar información
+  </button>
+</div>
+<hr>
+
+<div class="row">
+  
+  <div class="col-md-8 mb-4">
+    
+    <div class="row" *ngIf="user">
+      
+      <div class="col-md-12 mb-4">
+        
+        <div class="container text-center bk-p-t">
+          <div class="bk-p"></div>
+          <div class="bk-content">
+            <div class="image-profile" [ngStyle]="{ 'background-image': 'url('+ (user | secureImage:'avatar') +')' }"></div>
+            <h3 class="jumbotron-heading text-fullname">{{ user.name + ' ' + user.lastname }}</h3>
+            <div class="text-center">
+              <div *ngIf="followed && user._id != identity._id">
+                <span class="badge badge-pill badge-light">Te sigue</span>
+              </div>
+              <br>
+              <button
+                class="btn btn-primary"
+                (click)="folloUser(user._id)"
+                *ngIf="!following && user._id != identity._id"
+              >
+                <fa-icon [icon]="faPlusCircle"></fa-icon>
+                Seguir
+              </button>
+              <button
+                class="btn"
+                *ngIf="following && user._id != identity._id"
+                [ngClass]="{ 'btn-danger': user._id == followUserOver, 'btn-primary':user._id != followUserOver}"
+                (mouseenter)="mouseEnter(user._id)"
+                (mouseleave)="mouseLeave(user._id)"
+                (click)="unfolloUser(user._id)"
+              >
+                <span *ngIf="user._id == followUserOver; else following">
+                  <fa-icon [icon]="faMinusCircle"></fa-icon>
+                  Dejar de seguir
+                </span>
+                <ng-template #following>
+                  <fa-icon [icon]="faCheckCircle"></fa-icon>
+                  Siguiendo
+                </ng-template>
+              </button>
+              <div class="row UserStats" *ngIf="stats">
+                <ul class="list-group list-group-horizontal-lg">
+                  <li class="list-group-item  bg-primary border-light">
+                    <span class="UserStats__text pointer" [routerLink]="['/following', user._id]">Siguiendo</span>
+                    <br>
+                    <span class="UserStats__numb pointer" [routerLink]="['/following', user._id]">{{ stats.following }}</span>
+                  </li>
+                  <li class="list-group-item  bg-primary border-light">
+                    <span class="UserStats__text pointer" [routerLink]="['/followed', user._id]">Seguidores</span>
+                    <br>
+                    <span class="UserStats__numb pointer" [routerLink]="['/followed', user._id]">{{ stats.followed }}</span>
+                  </li>
+                  <li class="list-group-item  bg-primary border-light">
+                    <span class="UserStats__text">Publicaciones</span>
+                    <br>
+                    <span class="UserStats__numb">{{ stats.publications }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+    <app-publication *ngIf="user" [user]="user._id"></app-publication>
+
+  </div>
+
+  <app-sidebar
+    class="col-md-4"
+    [stats]="statsIdentity"
+  ></app-sidebar>
+
+</div>

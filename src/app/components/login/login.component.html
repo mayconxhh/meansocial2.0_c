@@ -1,0 +1,72 @@
+<h1>{{ title }}</h1>
+<hr>
+
+<div class="row">
+	<div class="col-lg-12">
+		
+		<form 
+			[formGroup]="form"
+			(ngSubmit)="login()"
+			class="col-lg-6" 
+		>
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">Correo Electrónico</label>
+		    <input
+		    	[ngClass]="{  'is-invalid': !form.get('email').valid && form.get('email').touched  }"
+		    	formControlName="email"
+		    	type="email"
+		    	class="form-control" 
+		    	placeholder="Email">
+		    	<div
+				    *ngIf="form.get('email').errors?.required && form.get('email').touched"
+			    	class="invalid-feedback"
+			    >
+			    	Este campo es requerido.
+			    </div>
+	        <div
+	    	    *ngIf="form.get('email').errors?.pattern && form.get('email').touched"
+	        	class="invalid-feedback"
+	        >
+	        	Ingrese un correo electrónico válido!.
+	        </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">Contraseña</label>
+		    <input
+		    	[ngClass]="{  'is-invalid': !form.get('password').valid && form.get('password').touched  }"
+		    	formControlName="password"
+		    	type="password"
+		    	class="form-control" 
+		    	placeholder="Contraseña">
+		    <div
+			    *ngIf="form.get('password').errors?.required && form.get('password').touched"
+		    	class="invalid-feedback"
+		    >
+		    	Este campo es requerido.
+		    </div>
+        <div
+    	    *ngIf="form.get('password').errors?.minlength && form.get('password').touched"
+        	class="invalid-feedback"
+        >
+        	Necesita por lo menos {{ form.get('password').errors?.minlength.requiredLength }} carácteres.
+        </div>
+		  </div>
+		  <button
+			  [disabled]="!form.valid"
+		  	type="submit"
+		  	class="btn btn-primary"
+		  >
+				Submit
+			</button>
+		</form>
+		<br>
+		<div
+			*ngIf="status"
+			[ngClass]="{ 'alert-success': success===true,  'alert-danger': success===false}"
+			class="alert"
+			role="alert"
+		>
+		  {{ message }}
+		</div>
+	</div>
+</div>
