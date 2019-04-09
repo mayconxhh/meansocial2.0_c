@@ -78,6 +78,16 @@
           routerLinkActive="active"
           *ngIf="_as.isLogIn()"
           >
+          <a class="nav-link" [routerLink]="['friends', identity._id]">
+            <fa-icon [icon]="faUser"></fa-icon>
+            Amigos
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="_as.isLogIn()"
+          >
           <a class="nav-link" [routerLink]="['request_friends']">
             <fa-icon [icon]="faUser"></fa-icon>
             Solicitudes

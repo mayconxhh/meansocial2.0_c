@@ -6,12 +6,6 @@ import { UserService } from '../../providers/user.service';
 import { FollowService } from '../../providers/follow.service';
 import { FriendService } from '../../providers/friend.service';
 
-import {
-          faPlusCircle,
-          faMinusCircle,
-          faCheckCircle
-        } from '@fortawesome/free-solid-svg-icons';
-
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -19,9 +13,6 @@ import {
 })
 export class FriendsComponent implements OnInit {
 
-  public faPlusCircle = faPlusCircle;
-  public faMinusCircle = faMinusCircle;
-  public faCheckCircle = faCheckCircle;
   public title:string;
   public identity:Object;
   public page:number;
@@ -29,11 +20,12 @@ export class FriendsComponent implements OnInit {
   public prevPage:number;
   public total:number;
   public pages:number = 0;
-  public UsersFollowing:Follow[];
+  public myfriends;
   public friends;
   public follows;
-  public followingUserOver;
-  public followingUserOverCard;
+  public requested;
+  public request;
+
   public user:number;
   public stats;
 
@@ -54,7 +46,7 @@ export class FriendsComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.UsersFollowing = []
+    // this.UsersFollowing = []
   }
 
   currentPage(){
@@ -82,8 +74,11 @@ export class FriendsComponent implements OnInit {
               if (res.success) {
                 this.total = res.total;
                 this.pages = res.pages;
-                this.UsersFollowing = res.follows;
+                this.myfriends = res.my_friends;
                 this.follows = res.users_following;
+                this.requested = res.user_requested;
+                this.friends = res.friends;
+                this.request = res.friends_request;
 
                 if ( this.total!= 0 && this.page > this.pages) {
                   this._router.navigateByUrl(`/home/${userId}/1`);
@@ -93,56 +88,4 @@ export class FriendsComponent implements OnInit {
               console.log(err);
             })
   }
-
-  mouseEnterCard(userId){
-    this.followingUserOverCard = userId;
-  }
-
-  mouseLeaveCard(userId){
-    this.followingUserOverCard = 0;
-  }
-
-  mouseEnter(userId){
-    this.followingUserOver = userId;
-  }
-
-  mouseLeave(userId){
-    this.followingUserOver = 0;
-  }
-
-  followUser(followed){
-    let follow = new Follow('', this.identity['_id'], followed);
-
-    this._fs.addFollow(follow)
-                .subscribe(res=>{
-                  console.log(res)
-                  if (res.success) {
-                    this.follows.push(res.follow.followed)
-                    this.stats.following +=1;
-                    this._us.setStats(this.stats);
-                  }
-                }, err=>{
-                  console.log(err)
-                })
-  }
-
-  unfollowUser(followed){
-    this._fs.deleteFollow(followed)
-                .subscribe(res=>{
-                  console.log(res);
-                  if (res.success) {
-                    let i = this.follows.indexOf(followed);
-
-                    if (i != -1) {
-                      this.stats.following -=1;
-                      this._us.setStats(this.stats);
-                      this.follows.splice(i, 1);
-                    }
-                  }
-                }, err=>{
-                  console.log(err)
-                })
-  }
-
-
 }

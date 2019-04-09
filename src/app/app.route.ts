@@ -10,6 +10,7 @@ import { OptionPublicationComponent } from './components/option-publication/opti
 import { FollowedComponent } from './components/followed/followed.component';
 import { FollowingComponent } from './components/following/following.component';
 import { RequestFriendsComponent } from './components/request-friends/request-friends.component';
+import { FriendsComponent } from './components/friends/friends.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 
@@ -82,6 +83,11 @@ const app_routes: Routes = [
 	{
 		path: 'request_friends/:page',
 		component: RequestFriendsComponent,
+		canActivate: [ AuthGuard ]
+	},
+	{
+		path: 'friends/:id',
+		component: FriendsComponent,
 		canActivate: [ AuthGuard ]
 	},
 	{

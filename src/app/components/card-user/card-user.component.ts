@@ -57,6 +57,8 @@ export class CardUserComponent implements OnInit {
         this.usersClean.push(user.user);
       } else if( user.followed && typeof user.followed != 'string') {
         this.usersClean.push(user.followed);
+      } else if( user.friend && typeof user.friend != 'string') {
+        this.usersClean.push(user.friend);
       } else {
         this.usersClean.push(user);
       }
@@ -145,8 +147,8 @@ export class CardUserComponent implements OnInit {
                   if (res['success']) {
                     this.friends.push(res['friend'].friend)
                     let i = this.request.indexOf(userId)
-                    // this.stats.following +=1;
-                    // this._us.setStats(this.stats);
+                    this.stats.friends +=1;
+                    this._us.setStats(this.stats);
                     if (i != -1) {
                       // this.stats.following -=1;
                       // this._us.setStats(this.stats);
@@ -166,8 +168,8 @@ export class CardUserComponent implements OnInit {
                     let i = this.friends.indexOf(userId);
 
                     if (i != -1) {
-                      // this.stats.following -=1;
-                      // this._us.setStats(this.stats);
+                      this.stats.friends -=1;
+                      this._us.setStats(this.stats);
                       this.friends.splice(i, 1);
                     }
                   }

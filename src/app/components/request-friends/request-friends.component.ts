@@ -68,6 +68,7 @@ export class RequestFriendsComponent implements OnInit {
   getRequestFriends(page){
     this._rfs.getRequestF(page)
             .subscribe(res=>{
+              console.log(this.stats)
               console.log(res)
               if (res['success']) {
                 this.total = res['total'];

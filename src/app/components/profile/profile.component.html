@@ -29,7 +29,60 @@
               <div *ngIf="followed && user._id != identity._id">
                 <span class="badge badge-pill badge-light">Te sigue</span>
               </div>
+              <div *ngIf="friend && user._id != identity._id">
+                <span class="badge badge-pill badge-light">Es tu amigo(a)</span>
+              </div>
               <br>
+              <button
+                class="btn mr-1 btn-primary"
+                (click)="addFriend(user._id)"
+                *ngIf="!friend && !request && requested && user._id != identity._id"
+              >
+                <fa-icon [icon]="faPlusCircle"></fa-icon>
+                Aceptar solicitud
+              </button>
+              <button 
+                class="btn mr-1"
+                [ngClass]="{ 'btn-danger': user._id == followUserOverCardF, 'btn-primary': user._id != followUserOverCardF }"
+                *ngIf="friend && !requested && !request && user._id != identity._id"
+                (mouseenter)="mouseEnterF(user._id)"
+                (mouseleave)="mouseLeaveF(user._id)"
+                (click)="deleteFriend(user._id)"
+              >
+                <span *ngIf="user._id == followUserOverCardF; else friend">
+                  <fa-icon [icon]="faMinusCircle"></fa-icon>
+                  Eliminar amigo(a)
+                </span>
+                <ng-template #friend>
+                  <fa-icon [icon]="faCheckCircle"></fa-icon>
+                  Amigo(a)
+                </ng-template>
+              </button>
+              <button
+                class="btn mr-1 btn-primary"
+                (click)="sendRequest(user._id)"
+                *ngIf="!requested && !request && !friend && user._id != identity._id"
+              >
+                <fa-icon [icon]="faPlusCircle"></fa-icon>
+                Agregar amigo
+              </button>
+              <button 
+                class="btn mr-1"
+                [ngClass]="{ 'btn-danger': user._id == followUserOverBF, 'btn-primary': user._id != followUserOverBF }"
+                *ngIf="request && !requested && !friend && user._id != identity._id"
+                (mouseenter)="mouseEnterBF(user._id)"
+                (mouseleave)="mouseLeaveBF(user._id)"
+                (click)="cancelRequest(user._id)"
+              >
+                <span *ngIf="user._id == followUserOverBF; else requestC">
+                  <fa-icon [icon]="faMinusCircle"></fa-icon>
+                  Cancelar Solicitud
+                </span>
+                <ng-template #requestC>
+                  <fa-icon [icon]="faCheckCircle"></fa-icon>
+                  Solicitud enviada
+                </ng-template>
+              </button>
               <button
                 class="btn btn-primary"
                 (click)="folloUser(user._id)"
