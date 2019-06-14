@@ -12,14 +12,14 @@ export class SecureImagePipe implements PipeTransform {
 
     if (type === 'avatar') {
     	if (object.image) {   
-	    	return `${this._gs.url}/user/image/${object.image}`;
+	    	return `${object.image}`;
 	    } else {
 	      return `assets/user.png`;
 	    }
     }
 
     if (type === 'fileP') {
-    	return `${this._gs.url}/publication/image/${object.file}`;
+    	return `${object.file}`;
     }
   }
 }
